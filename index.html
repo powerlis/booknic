@@ -179,17 +179,13 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #1d4ed8;
-    }
+    button:hover { background: #1d4ed8; }
 
-    .secondary-btn {
-      background: #475569;
-    }
+    .secondary-btn { background: #475569; }
+    .secondary-btn:hover { background: #334155; }
 
-    .secondary-btn:hover {
-      background: #334155;
-    }
+    .success-btn { background: #16a34a; }
+    .success-btn:hover { background: #15803d; }
 
     .danger-btn {
       background: #dc2626;
@@ -200,9 +196,7 @@
       border-radius: 8px;
     }
 
-    .danger-btn:hover {
-      background: #b91c1c;
-    }
+    .danger-btn:hover { background: #b91c1c; }
 
     .notice {
       display: none;
@@ -216,9 +210,7 @@
       white-space: pre-line;
     }
 
-    .notice.show {
-      display: block;
-    }
+    .notice.show { display: block; }
 
     .helper {
       margin-top: 14px;
@@ -228,13 +220,9 @@
     }
 
     .admin-login,
-    .admin-panel {
-      margin-top: 14px;
-    }
+    .admin-panel { margin-top: 14px; }
 
-    .admin-panel {
-      display: none;
-    }
+    .admin-panel { display: none; }
 
     .admin-topbar {
       display: flex;
@@ -245,9 +233,7 @@
       flex-wrap: wrap;
     }
 
-    .admin-topbar strong {
-      font-size: 16px;
-    }
+    .admin-topbar strong { font-size: 16px; }
 
     .admin-actions {
       display: flex;
@@ -263,6 +249,19 @@
       border-radius: 8px;
     }
 
+    .edit-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: #fafcff;
+    }
+
+    .edit-box h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
     .table-wrap {
       overflow-x: auto;
       border: 1px solid #e2e8f0;
@@ -273,7 +272,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 700px;
+      min-width: 760px;
       background: #fff;
     }
 
@@ -297,49 +296,19 @@
     }
 
     @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
+      .layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      body {
-        padding: 12px;
-      }
-
-      .card-body {
-        padding: 14px;
-      }
-
-      .weekdays,
-      .calendar-grid {
-        gap: 4px;
-      }
-
-      .weekday {
-        padding: 8px 0;
-      }
-
-      .day,
-      .empty {
-        min-height: 64px;
-      }
-
-      .day {
-        padding: 6px;
-      }
-
-      .admin-topbar {
-        align-items: stretch;
-      }
-
-      .admin-actions {
-        width: 100%;
-      }
-
-      .admin-actions .mini-btn {
-        flex: 1;
-      }
+      body { padding: 12px; }
+      .card-body { padding: 14px; }
+      .weekdays, .calendar-grid { gap: 4px; }
+      .weekday { padding: 8px 0; }
+      .day, .empty { min-height: 64px; }
+      .day { padding: 6px; }
+      .admin-topbar { align-items: stretch; }
+      .admin-actions { width: 100%; }
+      .admin-actions .mini-btn { flex: 1; }
     }
   </style>
 </head>
@@ -380,7 +349,7 @@
           <label for="phoneNumber">연락처</label>
           <input id="phoneNumber" type="text" placeholder="연락처 입력" />
 
-          <label for="memberNames">팀원이름(대표자 포함 총4명까지만 가능함)</label>
+          <label for="memberNames">팀원이름</label>
           <input id="memberNames" type="text" placeholder="팀원이름 입력" />
 
           <button id="reserveButton" type="button">예약하기</button>
@@ -413,30 +382,28 @@
               </div>
             </div>
 
-            <div class="card" style="box-shadow:none; border-color:#e2e8f0; margin-bottom:14px;">
-              <div class="card-body" style="padding:14px;">
-                <strong style="display:block; margin-bottom:10px; font-size:16px;">예약 수정</strong>
-                <input id="editDocId" type="hidden" />
+            <div class="edit-box">
+              <h3>예약 수정</h3>
+              <input id="editDocId" type="hidden" />
 
-                <label for="editDate">날짜</label>
-                <input id="editDate" type="text" placeholder="예: 2026-05-18" />
+              <label for="editDate">날짜</label>
+              <input id="editDate" type="text" placeholder="예: 2026-05-18" />
 
-                <label for="editTeamName">팀명</label>
-                <input id="editTeamName" type="text" placeholder="팀명 입력" />
+              <label for="editTeamName">팀명</label>
+              <input id="editTeamName" type="text" placeholder="팀명 입력" />
 
-                <label for="editLeaderName">대표자</label>
-                <input id="editLeaderName" type="text" placeholder="대표자 입력" />
+              <label for="editLeaderName">대표자</label>
+              <input id="editLeaderName" type="text" placeholder="대표자 입력" />
 
-                <label for="editPhoneNumber">연락처</label>
-                <input id="editPhoneNumber" type="text" placeholder="연락처 입력" />
+              <label for="editPhoneNumber">연락처</label>
+              <input id="editPhoneNumber" type="text" placeholder="연락처 입력" />
 
-                <label for="editMemberNames">팀원이름</label>
-                <input id="editMemberNames" type="text" placeholder="팀원이름 입력" />
+              <label for="editMemberNames">팀원이름</label>
+              <input id="editMemberNames" type="text" placeholder="팀원이름 입력" />
 
-                <div class="admin-actions" style="margin-top:12px;">
-                  <button id="adminSaveEditButton" type="button" class="mini-btn">수정 저장</button>
-                  <button id="adminCancelEditButton" type="button" class="mini-btn secondary-btn">수정 취소</button>
-                </div>
+              <div class="admin-actions" style="margin-top:12px;">
+                <button id="adminSaveEditButton" type="button" class="mini-btn success-btn">수정 저장</button>
+                <button id="adminCancelEditButton" type="button" class="mini-btn secondary-btn">수정 취소</button>
               </div>
             </div>
 
@@ -479,7 +446,9 @@
       getDocs,
       orderBy,
       deleteDoc,
-      doc
+      doc,
+      getDoc,
+      updateDoc
     } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
     import {
       getAuth,
@@ -532,6 +501,7 @@
     const adminTableBody = document.getElementById("adminTableBody");
     const adminNoticeBox = document.getElementById("adminNoticeBox");
     const adminWelcomeText = document.getElementById("adminWelcomeText");
+
     const editDocIdInput = document.getElementById("editDocId");
     const editDateInput = document.getElementById("editDate");
     const editTeamNameInput = document.getElementById("editTeamName");
@@ -592,6 +562,15 @@
       } catch {
         return "-";
       }
+    }
+
+    function clearEditForm() {
+      editDocIdInput.value = "";
+      editDateInput.value = "";
+      editTeamNameInput.value = "";
+      editLeaderNameInput.value = "";
+      editPhoneNumberInput.value = "";
+      editMemberNamesInput.value = "";
     }
 
     async function getReservationCount(dateKey) {
@@ -718,6 +697,67 @@
       }
     }
 
+    async function startEditReservation(docId) {
+      hideAdminNotice();
+      try {
+        const snap = await getDoc(doc(db, "reservations", docId));
+        if (!snap.exists()) {
+          showAdminNotice("수정할 예약을 찾을 수 없습니다.");
+          return;
+        }
+        const data = snap.data();
+        editDocIdInput.value = docId;
+        editDateInput.value = data.date || "";
+        editTeamNameInput.value = data.teamName || "";
+        editLeaderNameInput.value = data.leaderName || "";
+        editPhoneNumberInput.value = data.phoneNumber || "";
+        editMemberNamesInput.value = data.memberNames || "";
+        showAdminNotice("수정할 예약 정보를 불러왔습니다.");
+      } catch (error) {
+        console.error(error);
+        showAdminNotice("예약 정보를 불러오는 중 오류가 발생했습니다.");
+      }
+    }
+
+    async function saveEditReservation() {
+      hideAdminNotice();
+
+      const docId = editDocIdInput.value.trim();
+      if (!docId) {
+        showAdminNotice("먼저 예약 목록에서 수정 버튼을 누르세요.");
+        return;
+      }
+
+      const date = editDateInput.value.trim();
+      const teamName = editTeamNameInput.value.trim();
+      const leaderName = editLeaderNameInput.value.trim();
+      const phoneNumber = editPhoneNumberInput.value.trim();
+      const memberNames = editMemberNamesInput.value.trim();
+
+      if (!date || !teamName || !leaderName || !phoneNumber || !memberNames) {
+        showAdminNotice("날짜, 팀명, 대표자, 연락처, 팀원이름을 모두 입력하세요.");
+        return;
+      }
+
+      try {
+        await updateDoc(doc(db, "reservations", docId), {
+          date,
+          teamName,
+          leaderName,
+          phoneNumber,
+          memberNames
+        });
+
+        clearEditForm();
+        showAdminNotice("예약이 수정되었습니다.");
+        await renderCalendar();
+        await loadAdminReservations();
+      } catch (error) {
+        console.error(error);
+        showAdminNotice("예약 수정 중 오류가 발생했습니다.");
+      }
+    }
+
     async function loadAdminReservations() {
       if (!auth.currentUser) return;
 
@@ -754,14 +794,14 @@
             <td>
               <div style="display:flex; gap:6px; flex-wrap:wrap;">
                 <button type="button" class="mini-btn secondary-btn" data-edit-id="${item.id}">수정</button>
-                <button type="button" class="danger-btn" data-id="${item.id}">삭제</button>
+                <button type="button" class="danger-btn" data-delete-id="${item.id}">삭제</button>
               </div>
             </td>
           `;
           adminTableBody.appendChild(tr);
         });
 
-        bindDeleteButtons();
+        bindAdminTableButtons();
       } catch (error) {
         console.error(error);
         adminTableBody.innerHTML = `
@@ -773,10 +813,18 @@
       }
     }
 
-    function bindDeleteButtons() {
-      adminTableBody.querySelectorAll("button[data-id]").forEach((btn) => {
+    function bindAdminTableButtons() {
+      adminTableBody.querySelectorAll("button[data-edit-id]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.editId;
+          if (!id) return;
+          startEditReservation(id);
+        });
+      });
+
+      adminTableBody.querySelectorAll("button[data-delete-id]").forEach((btn) => {
         btn.addEventListener("click", async () => {
-          const id = btn.dataset.id;
+          const id = btn.dataset.deleteId;
           if (!id) return;
           const ok = confirm("이 예약을 삭제하시겠습니까?");
           if (!ok) return;
@@ -784,6 +832,7 @@
           try {
             await deleteDoc(doc(db, "reservations", id));
             showAdminNotice("예약이 삭제되었습니다.");
+            clearEditForm();
             await renderCalendar();
             await loadAdminReservations();
           } catch (error) {
@@ -809,6 +858,7 @@
             <td colspan="7" class="small">로그인 후 예약 목록이 표시됩니다.</td>
           </tr>
         `;
+        clearEditForm();
       }
     });
 
@@ -818,6 +868,11 @@
       await signOut(auth);
     });
     adminRefreshButton.addEventListener("click", loadAdminReservations);
+    adminSaveEditButton.addEventListener("click", saveEditReservation);
+    adminCancelEditButton.addEventListener("click", () => {
+      clearEditForm();
+      hideAdminNotice();
+    });
 
     renderCalendar();
   </script>
