@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>북크닉 예약시스템</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      background: #f6f8fc;
+      color: #1f2937;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 20px;
+      font-size: 30px;
+    }
+
+    .layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dde3ec;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .calendar-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-weight: 700;
+      padding: 10px 0;
+      border-radius: 10px;
+      background: #f3f5f9;
+      border: 1px solid #e2e8f0;
+      font-size: 14px;
+    }
+
+    .weekday.sun { color: #dc2626; }
+    .weekday.sat { color: #2563eb; }
+
+    .empty {
+      min-height: 96px;
+    }
+
+    .day {
+      min-height: 96px;
+      border: 1px solid #d9e1eb;
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .day:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.10);
+    }
+
+    .day.disabled {
+      background: #f1f5f9;
+      color: #9ca3af;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .day.disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .day.selected {
+      background: #4caf50;
+      border-color: #3f9d44;
+      color: #ffffff;
+    }
+
+    .day-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .date-number {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .date-status {
+      font-size: 12px;
+      text-align: right;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    .panel-title {
+      margin: 0 0 14px;
+      font-size: 24px;
+    }
+
+    .selected-date-box {
+      margin-bottom: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #bfdbfe;
+      background: linear-gradient(135deg, #eff6ff, #ffffff);
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 11px 12px;
+      border: 1px solid #cfd8e3;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #eef4ff;
+      color: #1d4ed8;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-line;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .helper {
+      margin-top: 14px;
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📅 북크닉 예약시스템</h1>
+
+  <div class="layout">
+    <section class="card">
+      <div class="card-body">
+        <div class="calendar-title">2026년 5월</div>
+
+        <div class="weekdays">
+          <div class="weekday sun">일</div>
+          <div class="weekday">월</div>
+          <div class="weekday">화</div>
+          <div class="weekday">수</div>
+          <div class="weekday">목</div>
+          <div class="weekday">금</div>
+          <div class="weekday sat">토</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <h2 class="panel-title">예약 입력</h2>
+        <div class="selected-date-box" id="selectedDateBox">날짜를 선택하세요</div>
+
+        <label for="teamName">팀명</label>
+        <input id="teamName" type="text" placeholder="팀명 입력" />
+
+        <label for="leaderName">대표자</label>
+        <input id="leaderName" type="text" placeholder="대표자 입력" />
+
+        <label for="phoneNumber">연락처</label>
+        <input id="phoneNumber" type="text" placeholder="연락처 입력" />
+
+        <label for="memberNames">팀원이름</label>
+        <input id="memberNames" type="text" placeholder="팀원이름 입력" />
+
+        <button id="reserveButton" type="button">예약하기</button>
+
+        <div class="notice" id="noticeBox"></div>
+        <div class="helper">예약 가능일은 2026년 5월 18일~22일입니다. 당일과 지난 날짜는 예약할 수 없고, 날짜별 최대 4팀까지 예약됩니다.</div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDa7xTGpAniRz7EeDvP5K5uIPOac5E_0jQ",
+      authDomain: "booknic-113d9.firebaseapp.com",
+      projectId: "booknic-113d9",
+      storageBucket: "booknic-113d9.firebasestorage.app",
+      messagingSenderId: "787863730383",
+      appId: "1:787863730383:web:3eca8fa8c5df77e3f51fba"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const YEAR = 2026;
+    const MONTH_INDEX = 4;
+    const MAX_TEAMS = 4;
+    const ALLOWED_DATES = new Set([
+      "2026-05-18",
+      "2026-05-19",
+      "2026-05-20",
+      "2026-05-21",
+      "2026-05-22"
+    ]);
+
+    const calendarGrid = document.getElementById("calendarGrid");
+    const selectedDateBox = document.getElementById("selectedDateBox");
+    const noticeBox = document.getElementById("noticeBox");
+    const reserveButton = document.getElementById("reserveButton");
+
+    const teamNameInput = document.getElementById("teamName");
+    const leaderNameInput = document.getElementById("leaderName");
+    const phoneNumberInput = document.getElementById("phoneNumber");
+    const memberNamesInput = document.getElementById("memberNames");
+
+    let selectedDate = null;
+
+    function showNotice(message) {
+      noticeBox.textContent = message;
+      noticeBox.classList.add("show");
+    }
+
+    function hideNotice() {
+      noticeBox.textContent = "";
+      noticeBox.classList.remove("show");
+    }
+
+    function pad2(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function makeDateKey(day) {
+      return `${YEAR}-05-${pad2(day)}`;
+    }
+
+    function getTodayKey() {
+      const now = new Date();
+      return `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
+    }
+
+    function formatSelectedDate(dateKey) {
+      const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+      const date = new Date(`${dateKey}T00:00:00`);
+      const day = Number(dateKey.split("-")[2]);
+      return `📅 2026년 5월 ${day}일 (${weekdayNames[date.getDay()]})`;
+    }
+
+    async function getReservationCount(dateKey) {
+      const q = query(collection(db, "reservations"), where("date", "==", dateKey));
+      const snapshot = await getDocs(q);
+      return snapshot.size;
+    }
+
+    async function renderCalendar() {
+      calendarGrid.innerHTML = "";
+
+      const firstWeekday = new Date(YEAR, MONTH_INDEX, 1).getDay();
+      for (let i = 0; i < firstWeekday; i += 1) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        calendarGrid.appendChild(empty);
+      }
+
+      const todayKey = getTodayKey();
+
+      for (let day = 1; day <= 31; day += 1) {
+        const dateKey = makeDateKey(day);
+        const count = await getReservationCount(dateKey);
+        const isAllowed = ALLOWED_DATES.has(dateKey);
+        const isPastOrToday = dateKey <= todayKey;
+        const isFull = count >= MAX_TEAMS;
+        const isDisabled = !isAllowed || isPastOrToday || isFull;
+
+        const dayEl = document.createElement("div");
+        dayEl.className = "day";
+        if (isDisabled) dayEl.classList.add("disabled");
+        if (selectedDate === dateKey) dayEl.classList.add("selected");
+
+        let statusText = "";
+        if (isAllowed) {
+          statusText = `${count}/${MAX_TEAMS}`;
+          if (isFull) {
+            statusText += `\n마감`;
+          }
+        }
+
+        dayEl.innerHTML = `
+          <div class="day-top">
+            <span class="date-number">${day}</span>
+            <span class="date-status">${statusText}</span>
+          </div>
+        `;
+
+        if (!isDisabled) {
+          dayEl.addEventListener("click", () => {
+            selectedDate = dateKey;
+            selectedDateBox.textContent = formatSelectedDate(dateKey);
+            hideNotice();
+            renderCalendar();
+          });
+        }
+
+        calendarGrid.appendChild(dayEl);
+      }
+    }
+
+    async function submitReservation() {
+      hideNotice();
+
+      if (!selectedDate) {
+        showNotice("먼저 왼쪽 달력에서 날짜를 선택하세요.");
+        return;
+      }
+
+      const teamName = teamNameInput.value.trim();
+      const leaderName = leaderNameInput.value.trim();
+      const phoneNumber = phoneNumberInput.value.trim();
+      const memberNames = memberNamesInput.value.trim();
+
+      if (!teamName || !leaderName || !phoneNumber || !memberNames) {
+        showNotice("팀명, 대표자, 연락처, 팀원이름을 모두 입력하세요.");
+        return;
+      }
+
+      const latestCount = await getReservationCount(selectedDate);
+      if (latestCount >= MAX_TEAMS) {
+        showNotice("이미 마감된 날짜입니다.");
+        await renderCalendar();
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "reservations"), {
+          teamName,
+          leaderName,
+          phoneNumber,
+          memberNames,
+          date: selectedDate,
+          createdAt: new Date()
+        });
+
+        teamNameInput.value = "";
+        leaderNameInput.value = "";
+        phoneNumberInput.value = "";
+        memberNamesInput.value = "";
+
+        showNotice("예약이 완료되었습니다.");
+        await renderCalendar();
+      } catch (error) {
+        console.error(error);
+        showNotice("예약 저장 중 오류가 발생했습니다.");
+      }
+    }
+
+    reserveButton.addEventListener("click", submitReservation);
+    renderCalendar();
+  </script>
+</body>
+</html>
