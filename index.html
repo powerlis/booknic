@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>북크닉 예약시스템</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -70,8 +72,13 @@
       font-size: 14px;
     }
 
-    .weekday.sun { color: #dc2626; }
-    .weekday.sat { color: #2563eb; }
+    .weekday.sun {
+      color: #dc2626;
+    }
+
+    .weekday.sat {
+      color: #2563eb;
+    }
 
     .empty {
       min-height: 96px;
@@ -267,6 +274,7 @@
       overflow-x: auto;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
@@ -276,7 +284,8 @@
       background: #fff;
     }
 
-    th, td {
+    th,
+    td {
       border-bottom: 1px solid #e5e7eb;
       padding: 10px 8px;
       text-align: left;
@@ -294,9 +303,80 @@
       font-size: 12px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
+      body {
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+
       .layout {
         grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card-body {
+        padding: 14px;
+      }
+
+      .calendar-title,
+      .panel-title {
+        font-size: 20px;
+      }
+
+      .weekdays,
+      .calendar-grid {
+        gap: 4px;
+      }
+
+      .weekday {
+        padding: 8px 0;
+        font-size: 12px;
+      }
+
+      .empty {
+        min-height: 72px;
+      }
+
+      .day {
+        min-height: 72px;
+        padding: 8px 6px;
+        border-radius: 10px;
+      }
+
+      .date-number {
+        font-size: 16px;
+      }
+
+      .date-status {
+        font-size: 10px;
+      }
+
+      .selected-date-box {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      input {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 14px;
+      }
+
+      .mini-btn {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .danger-btn {
+        font-size: 12px;
       }
     }
   </style>
