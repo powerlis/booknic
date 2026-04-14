@@ -349,7 +349,7 @@
           <label for="phoneNumber">연락처</label>
           <input id="phoneNumber" type="text" placeholder="연락처 입력" />
 
-          <label for="memberNames">팀원이름(대표자를 포함 총4명까지만 가능)</label>
+          <label for="memberNames">팀원이름</label>
           <input id="memberNames" type="text" placeholder="팀원이름 입력" />
 
           <button id="reserveButton" type="button">예약하기</button>
@@ -513,9 +513,12 @@
 
     let selectedDate = null;
 
-    function showNotice(message) {
+    function showNotice(message, usePopup = false) {
       noticeBox.textContent = message;
       noticeBox.classList.add("show");
+      if (usePopup) {
+        alert(message);
+      }
     }
 
     function hideNotice() {
@@ -650,7 +653,7 @@
 
       const latestCount = await getReservationCount(selectedDate);
       if (latestCount >= MAX_TEAMS) {
-        showNotice("이미 마감된 날짜입니다.");
+        showNotice("이미 마감된 날짜입니다.", true);
         await renderCalendar();
         return;
       }
@@ -670,7 +673,7 @@
         phoneNumberInput.value = "";
         memberNamesInput.value = "";
 
-        showNotice("예약이 완료되었습니다.");
+        showNotice("예약이 완료되었습니다.", true);
         await renderCalendar();
         await loadAdminReservations();
       } catch (error) {
@@ -750,6 +753,7 @@
 
         clearEditForm();
         showAdminNotice("예약이 수정되었습니다.");
+        alert("예약이 수정되었습니다.");
         await renderCalendar();
         await loadAdminReservations();
       } catch (error) {
@@ -832,6 +836,7 @@
           try {
             await deleteDoc(doc(db, "reservations", id));
             showAdminNotice("예약이 삭제되었습니다.");
+            alert("예약이 삭제되었습니다.");
             clearEditForm();
             await renderCalendar();
             await loadAdminReservations();
