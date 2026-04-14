@@ -399,7 +399,7 @@
               <input id="editPhoneNumber" type="text" placeholder="연락처 입력" />
 
               <label for="editMemberNames">함께할 짝궁</label>
-              <input id="editMemberNames" type="text" placeholder="함께할 짝궁은 총 3명까지만 가능" />
+              <input id="editMemberNames" type="text" placeholder="함께할 짝궁은 총 3명까지만 가능, 쉼표로 구분하여 작성해 주세요(ex 홍길동, 김철수, 이영희)" />
 
               <div class="admin-actions" style="margin-top:12px;">
                 <button id="adminSaveEditButton" type="button" class="mini-btn success-btn">수정 저장</button>
@@ -576,6 +576,24 @@
       editMemberNamesInput.value = "";
     }
 
+    function parseBuddyNames(value) {
+      return value
+        .split(",")
+        .map((name) => name.trim())
+        .filter((name) => name.length > 0);
+    }
+
+    function validateBuddyNames(value) {
+      const names = parseBuddyNames(value);
+      if (names.length === 0) {
+        return { ok: false, message: "함께할 짝궁을 입력하세요." };
+      }
+      if (names.length > 3) {
+        return { ok: false, message: "함께할 짝궁은 최대 3명까지만 입력할 수 있습니다. 쉼표로 구분해 주세요." };
+      }
+      return { ok: true, names };
+    }
+
     async function getReservationCount(dateKey) {
       const q = query(collection(db, "reservations"), where("date", "==", dateKey));
       const snapshot = await getDocs(q);
@@ -648,6 +666,12 @@
 
       if (!teamName || !leaderName || !phoneNumber || !memberNames) {
         showNotice("팀명, 대표자, 연락처, 함께할 짝궁을 모두 입력하세요.");
+        return;
+      }
+
+      const buddyValidation = validateBuddyNames(memberNames);
+      if (!buddyValidation.ok) {
+        showNotice(buddyValidation.message, true);
         return;
       }
 
@@ -739,6 +763,13 @@
 
       if (!date || !teamName || !leaderName || !phoneNumber || !memberNames) {
         showAdminNotice("날짜, 팀명, 대표자, 연락처, 함께할 짝궁을 모두 입력하세요.");
+        return;
+      }
+
+      const buddyValidation = validateBuddyNames(memberNames);
+      if (!buddyValidation.ok) {
+        showAdminNotice(buddyValidation.message);
+        alert(buddyValidation.message);
         return;
       }
 
